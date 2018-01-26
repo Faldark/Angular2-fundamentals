@@ -8,11 +8,11 @@ import { Component, Input, Output, EventEmitter } from "@angular/core";
     <div class="well howervell thumbnail">
        <h2>{{event?.name}}</h2>
        <div>Date: {{event?.date}}</div>
-       <div>Time: {{event?.time}}</div>
-       <div>
-        <span>Early Start</span>
-        <span>Late Start</span>
-        <span>Normal Start</span>
+       <div [ngStyle]="getStartTimeStyle()" [ngSwitch]
+       ="event?.time">Time: {{event?.time}}
+        <span *ngSwitchCase="'8:00 am'">(Early Start)</span>
+        <span *ngSwitchCase="'10:00 am'">(Late Start)</span>
+        <span *ngSwitchDefault>(Normal Start)</span>
        </div>
        <div>Price: \${{event?.price}}</div>
        <div *ngIf="event?.location">
@@ -34,5 +34,11 @@ import { Component, Input, Output, EventEmitter } from "@angular/core";
 
 export class EventThumbnailComponent {
   @Input()  event:any
+
+  getStartTimeStyle(): any {
+      if(this.event && this.event.time === '8:00 am') 
+      return {color: '#003300', 'font-weight': 'bold'}
+    return {}
+  }
   
 }
